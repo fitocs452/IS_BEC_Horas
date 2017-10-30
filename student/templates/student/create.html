@@ -1,0 +1,48 @@
+{% extends "student/base.html" %}
+{% block title %}Create Student{% endblock %}
+{% block content %}
+	{% load widget_tweaks %}
+	<div class="container">
+		<form class = 'activity_form' action="{% url 'student:save' %}" method="post" enctype="multipart/form-data">
+			<legend>Create Student</legend>
+			<div class="form-group">
+				<label for="name">ID</label>
+				{{ student_form.ID|add_class:"form-control"|attr:"placeholder:Your ID"}}
+				<div class="alert alert-danger">
+					<strong>{{student_form.ID.errors}}</strong>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="name">Name</label>
+				{{ student_form.Name|add_class:"form-control"|attr:"placeholder:Your First Name"}}
+			</div>			<div class="form-group">
+				<label for="name">Last Name</label>
+				{{ student_form.LastName|add_class:"form-control"|attr:"placeholder:Your Last Name"}}
+			</div>			<div class="form-group">
+				<label for="name">Email</label>
+				{{ student_form.email|add_class:"form-control"|attr:"placeholder:Your Email Address"}}
+			</div>			<div class="form-group">
+				<label for="name">Major</label>
+				{{ student_form.major|add_class:"form-control"|attr:"placeholder:Your Major"}}
+			</div>
+			<div class="form-group">
+				<label for="name">Cuota</label>
+				{{ student_form.cuota|add_class:"form-control"|attr:"placeholder:Cuota"}}
+			</div>
+			<!-- {{organizer_form.as_p}} -->
+			{% csrf_token %}
+			<a href="#">
+				<input type="submit" name="Create" class = "btn btn-info" value="Create" />
+			</a>
+			<a href="#">
+				<input type="button" name="Cancel" class = "btn btn-info" value="Cancel" />
+			</a>
+		</form>
+		
+	</div>
+	<script type="text/javascript">
+        $(function () {
+            $('#datetimepicker').datetimepicker();
+        });
+	</script>
+{% endblock %}
