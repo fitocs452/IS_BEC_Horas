@@ -1,0 +1,64 @@
+{% extends "activity/base.html" %}
+
+{% block title %}Modify Activity{% endblock %}
+{% block content %}
+	{% if messages %}
+	    {% for message in messages %}
+		    {% if message.tags == 'success'%}
+			    <div class="alert alert-success alert-dismissable fade in">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					<strong>Success!</strong> {{message}}
+				</div>
+			{% endif %}
+	    {% endfor %}
+	{% endif %}
+	<div class="container1">
+		<form class = 'activity_form' action="{% url 'activity:url_name_create' %}" method="post" enctype="multipart/form-data">
+			<legend>Modify Activity</legend>
+			<div class="form-group">
+				<label for="name">Name</label>
+				<input class="form-control" name="Name" placeholder="Your Name" type="text" value="Alexandr" />
+			</div>
+			<div class="form-group">
+				<label for="name">Description</label>
+				<input class="form-control" name="Description" placeholder="Description" type="text" value="MyDescription" />
+			</div>
+			<div class="form-group">				
+				<div class = 'my-datetime-picker'>
+					<label for="name">Date</label>
+					<input class="form-control" id='datetimepicker' name="date" placeholder="Date" type="text" value="datetimepicker" />				
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="name">Major</label>
+				<input class="form-control" name="major" placeholder="Eligible Majors to participate" type="text" value="" />
+			</div>
+			<div class="form-group">
+				<label for="name">Volunteers</label>
+				<input class="form-control" name="number_of_volunteer" placeholder="Number of Volunteers" type="text" value="6" />
+			</div>
+			<div class="form-group">
+				<label for="name">Hours Awarded</label>
+				<input class="form-control" name="hours" placeholder="Hours Awarded" type="text" value="6" />
+			</div>
+			<div class="form-group">
+				<label for="name">Place</label>
+				<input class="form-control" name="place" placeholder="Place" type="text" value="5" />
+			</div>
+			<!-- {{activity_form.as_p}} -->
+			{% csrf_token %}
+			<a href="#">
+				<input type="submit" name="modify" id = "submit_btn" class = "btn btn-info" value="Modify" />
+			</a>
+			<a href="#">
+				<input type="reset" name="Cancel" class = "btn btn-info" value="Cancel" />
+			</a>
+
+		</form>		
+	</div>
+	<script type="text/javascript">
+        $(function () {
+            $('#datetimepicker').datetimepicker();
+        });
+	</script>
+{% endblock %}

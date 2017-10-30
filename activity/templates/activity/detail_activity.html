@@ -1,0 +1,72 @@
+{% extends "activity/base.html" %}
+{% block title %}Create Activity{% endblock %}
+{% block content %}
+<div class="container" style="margin: auto; width: 80%;">
+	<div class="row" >
+		    	<h2>act.name</h2>
+
+		    	<h4>Description</h4>
+			    <h6 class="sub_h5">{{act.description}}</h6>
+
+			    <h4>Eligible Majors to participate</h4>
+			    <h6 class="sub_h5">{{act.major}}</h6>
+
+			    <h4>Couta</h4>
+			    <h6 class="sub_h5">{{act.time_worth}} hours</h6>			   
+
+			    <h4>Duration</h4>
+			    <h6 class="sub_h5">{{act.start_date}} - {{duration}}</h6>
+			    
+			    <h4>Amount of Volunteers</h4>
+			    <h6 class="sub_h5">act.number_of_volunteers</h6>
+
+			    <h4>Major</h4>
+			    <h6 class="sub_h5">act.major</h6>
+			    <h4>Place</h4>
+			    <h6 class="sub_h5">act.place</h6>
+	</div>
+	<div class="row">
+		<a href="#">
+			<input type="button" name="Modify" class = "btn btn-info" value="Modify" />
+		</a>
+		<form id="myform" method="post" action="{% url 'activity:remove'%}" style="display: inline-block;">
+		    {% csrf_token %}
+		    <input type="hidden" name="remove_id" value={{act.id}} />
+			<input type="button" name="remove" id = 'ActivityId' onclick = "remove_clicked(this)" class = "btn btn-info" value="Remove" />
+			<input type="submit" style="display: none;" id = 'ActivityId' onclick = "remove_clicked(this)" class = "btn btn-info" value="Remove" />
+		</form>
+
+		<a href="#">
+			<input type="button" name="SignUpStudent" class = "btn btn-info" value="SignUpStudent" />
+		</a>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var current_event;
+    $(function () {
+        $("#delete").click(function(){
+         	hide();
+         	$('#myform').submit();
+	    })
+	 	 $("#cancel").click(function(){
+		    hide();
+	  	});
+    });
+	function message()
+	{
+	  $("#delete_message").slideDown();
+	}
+
+	function hide()
+	{
+	  $("#delete_message").slideUp();
+	}
+
+    function remove_clicked(event) {
+    	current_event = event;
+    	message()
+    	return false;
+    }
+</script>
+{% endblock %}

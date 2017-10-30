@@ -1,0 +1,65 @@
+{% extends "activity/base.html" %}
+{% block title %}Create Activity{% endblock %}
+{% block content %}
+	{% load widget_tweaks %}
+	<div class="container">
+		<form class = 'activity_form' action="{% url 'activity:url_name_create' %}" method="post" enctype="multipart/form-data">
+			<legend>Create Activity</legend>
+			<div class="form-group">
+				<label for="name">Name</label>
+				{{ activity_form.name|add_class:"form-control"|attr:"placeholder:Your Name"}}
+			</div>
+			<div class="form-group">
+				<label for="description">Description</label>
+				{{ activity_form.description|add_class:"form-control"|attr:"placeholder:Description"}}
+			</div>
+			<div class="form-group">
+				<label for="major">Major</label>
+				{{ activity_form.major|add_class:"form-control"|attr:"placeholder:Eligible Majors to participate"}}
+			</div>
+			<div class="form-group">				
+				<div class = 'my-datetime-picker'>
+					<label for="start_date">Date</label>
+					<!-- {{activity_form.start_date}} -->
+					{{ activity_form.start_date|add_class:"form-control"|attr:"placeholder:Date"|attr:"id:datetimepicker"}}
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="number_of_volunteers">Volunteers</label>
+				{{ activity_form.number_of_volunteers|add_class:"form-control"|attr:"placeholder:Number of Volunteers"}}
+			</div>
+			<div class="form-group">
+				<label for="time_worth">Hours Awarded</label>
+				{{ activity_form.time_worth|add_class:"form-control"|attr:"placeholder:Description"}}
+			</div>
+			<div class="form-group">
+				<label for="place">Place</label>
+				{{ activity_form.place|add_class:"form-control"|attr:"placeholder:place"}}
+			</div>
+
+			{% csrf_token %}
+			<a href="#">
+				<input type="submit" name="Create" class = "btn btn-info" value="Create" />
+			</a>
+			<a href="#">
+				<input type="button" name="Cancel" class = "btn btn-info" value="Cancel" />
+			</a>
+		</form>
+		
+	</div>
+	<script type="text/javascript">
+        $(function () {
+            $('#datetimepicker').datetimepicker({
+            	// dateFormat: 'dd-mm-yy',
+				format:'YYYY-MM-DD HH:mm:ss',
+				date:new Date()
+            });
+        });
+		// function getFormattedDate(date) {
+		//     var day = date.getDate();
+		//     var month = date.getMonth() + 1;
+		//     var year = date.getFullYear().toString().slice(2);
+		//     return day + '-' + month + '-' + year;
+		// }
+	</script>
+{% endblock %}
