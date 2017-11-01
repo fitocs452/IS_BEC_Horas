@@ -4,13 +4,15 @@
 	{% load widget_tweaks %}
 	<div class="container">
 		<form class = 'organizer_form' action="{% url 'organizer:save' %}" method="post" enctype="multipart/form-data">
-			<legend>Create Activity</legend>
+			<legend>Create Organizer</legend>
 			<div class="form-group">
 				<label for="UserName">Name</label>
 				{{ organizer_form.UserName|add_class:"form-control"|attr:"placeholder:Your Name"}}
+				{% if organizer_form.UserName.errors %}
 			        <div class="alert alert-danger">
 		            <strong>{{ organizer_form.UserName.errors}}</strong>
 			        </div>
+		        {% endif%}
 			</div>
 			<div class="form-group">
 				<label for="FirstName">First Name</label>
@@ -28,7 +30,7 @@
 			<a href="#">
 				<input type="submit" name="Create" class = "btn btn-info" value="Create" />
 			</a>
-			<a href="#">
+			<a href="{% url 'account:login' %}">
 				<input type="button" name="Cancel" class = "btn btn-info" value="Cancel" />
 			</a>
 		</form>

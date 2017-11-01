@@ -3,29 +3,38 @@
 {% block content %}
 <div class="container" style="margin: auto; width: 80%;">
 	<div class="row" >
-		    	<h2>Acitivity 1</h2>
-			    <h4>Description</h4>
-			    <h6 class="sub_h5">This is Description For activity1.This is Description For activity1.This is Description For activity1.This is Description For activity1This is Description For activity1.This is Description For activity1.This is Description For activity1.This is Description For activity1This is Description For activity1.This is Description For activity1.This is Description For activity1.This is Description For activity1This is Description For activity1.This is Description For activity1.This is Description For activity1.This is Description For activity1This is Description For activity1.This is Description For activity1.This is Description For activity1.This is Description For activity1This is Description For activity1.This is Description For activity1.This is Description For activity1.This is Description For activity1This is Description For activity1.This is Description For activity1.This is Description For activity1.This is Description For activity1</h6>
+				<a href="">
+					<h1>{{act.name}}</h1>
+				</a>
+		    	<h4>Organizer Name</h4>
+		    	<h6 class="sub_h5">{{act.organizer.FirstName}}</h6>
+		    	<h4>Description</h4>
+			    <h6 class="sub_h5">{{act.description}}</h6>
 
 			    <h4>Eligible Majors to participate</h4>
-			    <h6 class="sub_h5">Any</h6>
+			    <h6 class="sub_h5">{{act.major}}</h6>
 
 			    <h4>Couta</h4>
-			    <h6 class="sub_h5">5hours</h6>
-			    
+			    <h6 class="sub_h5">{{act.time_worth}} hours</h6>			   
+
 			    <h4>Duration</h4>
-			    <h6 class="sub_h5">2~3</h6>
+			    <h6 class="sub_h5">{{act.start_date}} - {{duration}}</h6>
 			    
 			    <h4>Amount of Volunteers</h4>
-			    <h6 class="sub_h5">10</h6>
-			    
+			    <h6 class="sub_h5">{{act.number_of_volunteers}}</h6>
+
+			    <h4>Major</h4>
+			    <h6 class="sub_h5">{{act.major}}</h6>
 			    <h4>Place</h4>
-			    <h6 class="sub_h5">St.PetersBurg</h6>
+			    <h6 class="sub_h5">{{act.place}}</h6>
 	</div>
 	<div class="row">
-		<a href="#">
-			<input type="button" name="CheckIn" class = "btn btn-info" value="CheckIn" />
-		</a>			
+		<form id="myform" method="post" action="{% url 'activity:check_in'%}" style="display: inline-block;">
+		    {% csrf_token %}
+		    <input type="hidden" name="activity_id" value={{act.id}} />
+			<input type="submit" name="CheckIn" class = "btn btn-info" value="CheckIn" />
+		</form>
+
 		<a href="#">
 			<input type="button" name="Cancel" id = 'ActivityId' class = "btn btn-info" value="Cancel" />
 		</a>

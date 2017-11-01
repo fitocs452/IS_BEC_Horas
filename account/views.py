@@ -2,6 +2,8 @@ from django.shortcuts import render
 from student.models import Student
 from organizer.models import Organizer
 from .forms import LoginForm
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def login(request):
@@ -14,16 +16,19 @@ def login(request):
 			password = cd['password']
 			
 			user = Student.objects.filter(ID=username, password=password)
-
 			if user.count() > 0 :
-				login(request, user)
+				request.session['UserName'] = username
+				request.session['type'] = 'student'
+				
 				return HttpResponse('Authenticated'\
 										'successfully')
 			else:
 				user = Organizer.objects.filter(UserName=username, password=password)
 
 				if user.count() > 0:
-					login(request, user)
+					request.session['UserName'] = username
+					request.session['type'] = 'organizer'
+					
 					return HttpResponse('Authenticated'\
 											'successfully')
 				else:
@@ -34,3 +39,8 @@ def login(request):
 	else:
 		form = LoginForm()
 		return render(request, 'account/login.html', {'form': form})				
+
+
+@login_required
+def dashboard(request):
+	return render(request, 'account/activity.html', {'section': 'activity'})

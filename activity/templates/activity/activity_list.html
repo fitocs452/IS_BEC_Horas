@@ -1,7 +1,17 @@
 {% extends "activity/base.html" %}
 {% block title %}List Activity{% endblock %}
 {% block content %}
-	<div class="row">
+	{% if messages %}
+	    {% for message in messages %}
+		    {% if message.tags == 'success'%}
+			    <div class="alert alert-success alert-dismissable fade in">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					<strong>Success!</strong> {{message}}
+				</div>
+			{% endif %}
+	    {% endfor %}
+	{% endif %}
+	<div class="row" style="margin-left: 10px">
 		{%for activity in activities%}
 			{%for act in activity%}
 				<div class="col-xs-12 col-sm-4 post_listing">
