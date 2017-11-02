@@ -5,7 +5,7 @@ from student.models import Student
 # Create your models here.
 class Activity(models.Model):
 	organizer = models.ForeignKey(Organizer, on_delete=models.CASCADE)
-	students = models.ManyToManyField(Student)
+	students = models.ManyToManyField(Student,through = 'Confirm_state')
 	name = models.CharField(max_length = 200)
 	description = models.CharField(max_length =200)
 	major = models.CharField(max_length=200)
@@ -13,3 +13,13 @@ class Activity(models.Model):
 	time_worth = models.IntegerField(default = 1)
 	place = models.CharField(max_length=200)
 	number_of_volunteers = models.IntegerField(default = 1)
+
+class Confirm_state(models.Model):
+    student = models.ForeignKey(Student)
+    activity = models.ForeignKey(Activity)
+    assign = models.CharField(max_length=100,default = 'not_confirm')
+    
+    def __str__(self):
+    	return self.assign+self.activity.name+self.student.ID
+    def __unicode__(self):
+        return "%s is checked in %s activity(as %s)" % (self.student, self.activity, self.type)

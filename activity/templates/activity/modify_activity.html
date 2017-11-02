@@ -1,4 +1,4 @@
-{% extends "activity/base.html" %}
+{% extends "activity/base_organizer.html" %}
 {% block title %}Create Activity{% endblock %}
 {% block content %}
 	{% load widget_tweaks %}
@@ -41,7 +41,7 @@
 			<a href="#">
 				<input type="submit" name="Create" class = "btn btn-info" value="Modify" />
 			</a>
-			<a href="#">
+			<a href="javascript:history.back()">
 				<input type="button" name="Cancel" class = "btn btn-info" value="Cancel" />
 			</a>
 		</form>

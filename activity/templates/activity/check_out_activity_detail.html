@@ -1,4 +1,4 @@
-{% extends "activity/base.html" %}
+{% extends "activity/base_student.html" %}
 {% block title %}Create Activity{% endblock %}
 {% block content %}
 <div class="container" style="margin: auto; width: 80%;">
@@ -35,7 +35,7 @@
 			<input type="submit" name="CheckOut" class = "btn btn-info" value="CheckOut" />
 		</form>
 
-		<a href="#">
+		<a href="javascript:history.back()">
 			<input type="button" name="Cancel" id = 'ActivityId' class = "btn btn-info" value="Cancel" />
 		</a>
 	</div>

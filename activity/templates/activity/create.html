@@ -1,4 +1,4 @@
-{% extends "activity/base.html" %}
+{% extends "activity/base_organizer.html" %}
 {% block title %}Create Activity{% endblock %}
 {% block content %}
 	{% load widget_tweaks %}
@@ -7,7 +7,7 @@
 			<legend>Create Activity</legend>
 			<div class="form-group">
 				<label for="name">Name</label>
-				{{ activity_form.name|add_class:"form-control"|attr:"placeholder:Your Name"}}
+				{{ activity_form.name|add_class:"form-control"|attr:"placeholder:Activity Name"}}
 			</div>
 			<div class="form-group">
 				<label for="description">Description</label>

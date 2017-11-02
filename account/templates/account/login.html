@@ -5,9 +5,22 @@
 {% block content %}
 <div style="width: 33.3%;margin: auto;">
 	<h1>Log-in</h1>
+	{% if form.username.errors %}
+	<p class="alert alert-danger">
+		Your username and password didn't match.
+		Please try again.
+	</p>
+	{% else %}
 	<p>Please, use the following form to log-in:</p>
+	{% endif %}
 	<form action="." method="post">
-		{{ form.as_p }}
+		{% for field in form.visible_fields %}
+			<p>
+			  {{ field.label_tag }}
+	          {{ field }}
+	          {{ field.help_text }}				
+			</p>
+	    {% endfor %}
 		{% csrf_token %}
 		<p><input type="submit" value="Log-in"></p>
 	</form>	

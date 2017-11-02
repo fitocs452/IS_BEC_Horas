@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{% block title %}{% endblock %}</title>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+		<link rel="stylesheet" type="text/css" href= "{% static 'css/message_style.css' %}" >
+		<style type="text/css">
+			body{
+				background-color: #ebebeb;
+			}
+			.container{
+				padding-top: 50px;
+			}
+			.my-datetime-picker{
+				position: relative;
+			}
+			.activity_form{
+				width: 33.3%;
+				margin : auto;
+			}
+			.sub_h5{
+				margin-left: 10px;
+			}
+	    </style>
+	</head>
+	<body>
+		<nav class="navbar navbar-inverse ">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		      <a class="navbar-brand" href="#">Student</a>
+		    </div>
+		    <ul class="nav navbar-nav">
+		      <li><a href="{% url 'activity:list' %}">CheckIn</a></li>
+		      <li><a href="{% url 'activity:check_out_list' %}">CheckOut</a></li>
+		    </ul>
+		    <ul class="nav navbar-nav navbar-right">
+		      <li><a href="javascript:history.back()"><span class="glyphicon glyphicon-menu-left"></span> Back</a></li>
+		      <li><a href="{% url 'student:modify'%}"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+		      <li><a href="{% url 'account:logout' %}"><span class="glyphicon glyphicon-log-in"></span> LogOut</a></li>
+		    </ul>
+		  </div>
+		</nav>
+		<div id="delete_message">
+			<h4>Are You Sure You Want To Delete This</h4>
+			<input type="button" value="Delete" id="delete">
+			<input type="button" value="Cancel" id="cancel">
+  		</div>
+		<div id="content">
+			{% block content %}
+			{% endblock %}
+	</body>
+</html>

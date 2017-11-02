@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from student.models import Student
 from organizer.models import Organizer
 from .forms import LoginForm
@@ -20,8 +20,7 @@ def login(request):
 				request.session['UserName'] = username
 				request.session['type'] = 'student'
 				
-				return HttpResponse('Authenticated'\
-										'successfully')
+				return redirect('/activity/list')
 			else:
 				user = Organizer.objects.filter(UserName=username, password=password)
 
@@ -29,18 +28,25 @@ def login(request):
 					request.session['UserName'] = username
 					request.session['type'] = 'organizer'
 					
-					return HttpResponse('Authenticated'\
-											'successfully')
+					return redirect('/activity/list')
 				else:
-					return HttpResponse('Disabled account')
+					form.add_error('username',"")
+					return render(request, 'account/login.html', {'form': form})
 
 		else:
-			return HttpResponse('Invalid login')
+			form.add_error('username',"invalid")			
+			return render(request, 'account/login.html', {'form': form})
 	else:
 		form = LoginForm()
 		return render(request, 'account/login.html', {'form': form})				
 
-
+def logout(request):
+    try:
+        del request.session['UserName']
+        del request.session['type']
+    except KeyError:
+        pass
+    return redirect('login')
 @login_required
 def dashboard(request):
 	return render(request, 'account/activity.html', {'section': 'activity'})

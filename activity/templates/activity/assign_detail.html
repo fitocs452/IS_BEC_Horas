@@ -1,0 +1,88 @@
+{% extends "activity/base_organizer.html" %}
+{% block title %}Create Activity{% endblock %}
+{% block content %}
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>    
+	<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+
+<div class="container" style="margin: auto; width: 80%;">
+	<div class="row" style="float: left; width: 20%;">
+		    	<h2>{{act.name}}</h2>
+
+		    	<h4>Description</h4>
+			    <h6 class="sub_h5">{{act.description}}</h6>
+
+			    <h4>Eligible Majors to participate</h4>
+			    <h6 class="sub_h5">{{act.major}}</h6>
+
+			    <h4>Couta</h4>
+			    <h6 class="sub_h5">{{act.time_worth}} hours</h6>			   
+
+			    <h4>Duration</h4>
+			    <h6 class="sub_h5">{{act.start_date}} - {{duration}}</h6>
+			    
+			    <h4>Amount of Volunteers</h4>
+			    <h6 class="sub_h5">{{act.number_of_volunteers}}</h6>
+
+			    <h4>Major</h4>
+			    <h6 class="sub_h5">{{act.major}}</h6>
+			    <h4>Place</h4>
+			    <h6 class="sub_h5">{{act.place}}</h6>
+	</div>
+	<div style="background-color: ##dff0d8; float :right; width: 80%">
+		<div >
+			<h3>Assigned Students</h3>
+			<table id = "assigned_table" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered">
+	        	<thead>
+					<tr>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th>Major</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in assigned_students %}
+						<tr>
+							<td>{{item.student.Name}}</td>
+							<td>{{item.student.LastName}}</td>
+							<td>{{item.student.major}}</td>
+						</tr>
+					{% endfor%}
+				</tbody>
+	        </table>
+		</div>
+		<div>
+			<h3>Checked In Students</h3>
+			<table id = "checkin_table" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered">
+	        	<thead>
+					<tr>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th>Major</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in check_students %}
+						<tr>
+							<td>{{item.student.Name}}</td>
+							<td>{{item.student.LastName}}</td>
+							<td>{{item.student.major}}</td>
+							<td>
+								<a href="{%url 'activity:confirm' item.student.id act.id%}">Confirm</a>
+							</td>
+						</tr>
+					{% endfor%}
+				</tbody>
+	        </table>			
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+        $('#checkin_table').DataTable();
+        $('#assigned_table').DataTable();
+    });
+</script>
+{% endblock %}
