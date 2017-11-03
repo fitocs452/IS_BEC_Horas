@@ -18,9 +18,9 @@ from django.contrib import admin
 from account import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$',views.login),
+    url(r'^$',views.login,name = 'login'),
     url(r'^organizer/',include('organizer.urls')),
-    url(r'^activity/',include('activity.urls'),name='activity'),
+    url(r'^activity/',include('activity.urls',namespace='activity')),
     url(r'^student/', include('student.urls')),
     url(r'^account/', include('account.urls')),
 ]
