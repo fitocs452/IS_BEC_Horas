@@ -1,4 +1,4 @@
-{% extends "student/base.html" %}
+{% extends "activity/base_student.html" %}
 {% block title %}Edit Student{% endblock %}
 {% block content %}
 	{% load widget_tweaks %}
@@ -38,14 +38,23 @@
 			</div>
 			<div class="form-group">
 				<label for="name">Confirm Password</label>
-				<input type="text" name="confirm_password" class="form-control" placeholder="Confirm Password">
+				<!-- <input type="text" name="confirm_password" class="form-control" placeholder="Confirm Password"> -->
+				{{ student_form.confirm_password|add_class:"form-control"|attr:"placeholder:Confirm Password"}}
+				{% if student_form.password.errors %}
+					<div class="alert alert-danger">
+			            <strong>{{ student_form.password.errors }}</strong>
+				    </div>
+			    {% endif %}
 			</div>
+
+				
+				{{ student_form.student_id}}
+
+	
 			<!-- {{organizer_form.as_p}} -->
 			{% csrf_token %}
-			<a href="#">
 				<input type="submit" name="Modify" class = "btn btn-info" value="Modify" />
-			</a>
-			<a href="#">
+			<a href="javascript:history.back()">
 				<input type="button" name="Cancel" class = "btn btn-info" value="Cancel" />
 			</a>
 		</form>

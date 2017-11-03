@@ -1,0 +1,34 @@
+{% extends "activity/base.html" %}
+{% block title %}Create Activity{% endblock %}
+{% block content %}
+
+{% endblock %}
+
+	<script type="text/javascript">
+        $(function () {
+            $("#delete").click(function(){
+	         	hide();
+	         	$(submit_btn).submit();
+		    })
+		 	 $("#cancel").click(function(){
+			    hide();
+		  	});
+        });
+    	function message()
+		{
+		  $("#delete_message").slideDown();
+		}
+
+		function hide()
+		{
+		  $("#delete_message").slideUp();
+		}
+
+	    function remove_clicked(event) {
+	    	message()
+	    	return false;
+	    }
+	</script>
+//question
+In InforPage
+	what is Duration.

@@ -1,25 +1,25 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django. http import HttpResponse,HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from .models import Student
-from .forms import StudentModelForm,StudentModifyForm
+from .forms import StudentModelForm, StudentModifyForm
 
+from activity.models import Activity,Confirm_state
 # Create your views here.
 def index(request):
 	if request.session['type'] == 'student':
 		return HttpResponse("HI This is Student App");
 	else:
 		return HttpResponseRedirect('account/login')
-
 def create(request):
 	if request.method == 'POST':
 		create_form = StudentModelForm(request.POST)
 		if create_form.is_valid():
 			create_form.save()
 			messages.add_message(request, messages.SUCCESS, 'Your account has been created successfully.')
-			return HttpResponseRedirect('index')
+			return HttpResponseRedirect('login')
 		else:
 			return render(request,'student/create.html', {'student_form':create_form})
 	else:
@@ -27,8 +27,9 @@ def create(request):
 		return render(request,'student/create.html', {'student_form':create_form})
 
 
-@login_required
 def modify(request):
+	if request.session.get('type', 'none') == 'none':
+		return redirect('login')
 	username = request.session['UserName']
 	typ = request.session['type']
 	if typ != 'student':
@@ -36,7 +37,9 @@ def modify(request):
 
 	else:
 		info = Student.objects.get(ID= username)
+		
 		if request.method == 'POST':
+			
 			create_form = StudentModifyForm(request.POST)
 		
 
@@ -55,14 +58,14 @@ def modify(request):
 				stu.save()
 
 				messages.add_message(request, messages.SUCCESS, 'Your account has been updated successfully.')
-				return HttpResponseRedirect('../')
+				return HttpResponseRedirect('/activity/list')
 			else:
 				print(create_form.errors)
 				print("not valid")
 				return render(request,'student/modify.html', {'student_form':create_form,})
 		else:
 			create_form = StudentModifyForm(initial={'ID': info.ID, 'Name': info.Name, 'LastName': info.LastName, 'email': info.email,
-													'major': info.major, 'password': info.password})
+													'major': info.major, 'password': info.password, 'student_id': info.ID})
 			return render(request,'student/modify.html', {'student_form':create_form,'info':info})
 			
 

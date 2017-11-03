@@ -12,6 +12,7 @@ class StudentModelForm(ModelForm):
 		model = Student
 		fields = ['ID','Name','LastName', 'password', 'email', 'major', 'cuota',
 		]
+		widgets ={'password': forms.PasswordInput(),}
 		
 
 	def clean(self):
@@ -51,27 +52,40 @@ class StudentModifyForm(forms.Form):
 
 	# confirm_password = forms.CharField(widget=forms.PasswordInput())
 	ID = forms.CharField(max_length = 200)
-	password = forms.CharField(max_length = 200)
+	password = forms.CharField(max_length = 200, widget=forms.PasswordInput())
+	confirm_password = forms.CharField(max_length = 200, widget=forms.PasswordInput())
 	Name = forms.CharField(max_length = 200)
 	LastName = forms.CharField(max_length = 200)
 	email = forms.EmailField()
 	major = forms.CharField(max_length = 200)
+	student_id = forms.CharField(widget=forms.HiddenInput())
+	# form.fields['field_name'].widget = forms.HiddenInput()
+
 
 	def clean(self):
+		
 		cleaned_data = super(StudentModifyForm, self).clean()
 
-		try:
-			val = int(cleaned_data['ID'])
+		id = cleaned_data['student_id']
 
-		except ValueError:
-			self.add_error('ID', " Please Enter Number")
-		else:
+		if id != cleaned_data['ID']:
 			try:
-				Student.objects.get(ID=cleaned_data['ID'])
-			except Student.DoesNotExist:
-				pass
+				val = int(cleaned_data['ID'])
+
+			except ValueError:
+				self.add_error('ID', " Please Enter Number")
 			else:
-				self.add_error('ID', cleaned_data['ID']+"          is already exists")
+				try:
+					Student.objects.get(ID=cleaned_data['ID'])
+				except Student.DoesNotExist:
+					pass
+				else:
+					self.add_error('ID', cleaned_data['ID']+"          is already exists")
+		
+		
+		if cleaned_data['password'] != cleaned_data['confirm_password']:
+			self.add_error('password', "Password don't match")
+			raise forms.ValidationError('Password don match.')
 
 		return cleaned_data
 		
