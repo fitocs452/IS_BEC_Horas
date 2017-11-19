@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render
 from django. http import HttpResponse,HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -19,7 +19,7 @@ def create(request):
 		if create_form.is_valid():
 			create_form.save()
 			messages.add_message(request, messages.SUCCESS, 'Your account has been created successfully.')
-			return HttpResponseRedirect('login')
+			return HttpResponseRedirect('../')
 		else:
 			return render(request,'student/create.html', {'student_form':create_form})
 	else:
@@ -28,8 +28,6 @@ def create(request):
 
 
 def modify(request):
-	if request.session.get('type', 'none') == 'none':
-		return redirect('login')
 	username = request.session['UserName']
 	typ = request.session['type']
 	if typ != 'student':
