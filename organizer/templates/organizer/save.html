@@ -1,5 +1,5 @@
 {% extends "organizer/base.html" %}
-{% block title %}Create Activity{% endblock %}
+{% block title %}Create Organizer{% endblock %}
 {% block content %}
 	{% load widget_tweaks %}
 	<div class="container">
@@ -8,11 +8,11 @@
 			<div class="form-group">
 				<label for="UserName">Name</label>
 				{{ organizer_form.UserName|add_class:"form-control"|attr:"placeholder:Your Name"}}
-				{% if organizer_form.UserName.errors %}
+			        {% if organizer_form.UserName.errors %}
 			        <div class="alert alert-danger">
 		            <strong>{{ organizer_form.UserName.errors}}</strong>
 			        </div>
-		        {% endif%}
+			        {% endif %}
 			</div>
 			<div class="form-group">
 				<label for="FirstName">First Name</label>
@@ -26,13 +26,27 @@
 				<label for="name">email</label>
 				{{ organizer_form.email|add_class:"form-control"|attr:"placeholder:Email"}}
 			</div>
+			<div class="form-group">
+				<label for="name">Password</label>
+				{{ organizer_form.password|add_class:"form-control"|attr:"placeholder:Password"}}
+			</div>
+			<div class="form-group">
+				<label for="name">Confirm Password</label>
+				{{ organizer_form.confirm_password|add_class:"form-control"|attr:"placeholder:Confirm Password"}}
+				{% if organizer_form.password.errors %}
+					<div class="alert alert-danger">
+			            <strong>{{ organizer_form.password.errors }}</strong>
+				    </div>
+			    {% endif %}
+				<!-- <input type="text" name="confirm_password" class="form-control" placeholder="Confirm Password"> -->
+			</div>
 			{% csrf_token %}
-			<a href="#">
+			
 				<input type="submit" name="Create" class = "btn btn-info" value="Create" />
-			</a>
-			<a href="{% url 'account:login' %}">
+			
+			
 				<input type="button" name="Cancel" class = "btn btn-info" value="Cancel" />
-			</a>
+		
 		</form>
 		
 	</div>
