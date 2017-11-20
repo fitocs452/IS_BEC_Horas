@@ -17,8 +17,10 @@ def save(request):
 		create_form = OrganizerModelForm(request.POST)
 		if create_form.is_valid():
 			create_form.save()
-			messages.add_message(request, messages.SUCCESS, 'Hello world.')
-			return HttpResponseRedirect('../')
+			messages.add_message(request, messages.SUCCESS, 'Successfully signed up. Here you can see your Page')
+			request.session['type'] = 'organizer'
+			request.session['UserName'] = request.POST['UserName']
+			return redirect('activity:list')
 		else:
 			return render(request,'organizer/save.html',{'organizer_form':create_form})
 	create_form = OrganizerModelForm()
