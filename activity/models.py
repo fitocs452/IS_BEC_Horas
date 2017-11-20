@@ -18,7 +18,8 @@ class Confirm_state(models.Model):
     student = models.ForeignKey(Student)
     activity = models.ForeignKey(Activity)
     assign = models.CharField(max_length=100,default = 'not_confirm')
-    
+    class Meta:
+	    unique_together = ('student', 'activity',)
     def __str__(self):
     	return self.assign+self.activity.name+self.student.ID
     def __unicode__(self):

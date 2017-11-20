@@ -1,6 +1,7 @@
 from django.shortcuts import render,render_to_response,redirect,get_object_or_404
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib import messages
+from django.db import IntegrityError
 
 import datetime
 from .models import Activity,Confirm_state
@@ -66,11 +67,14 @@ def check_in(request):
 	if request.method == "POST":
 		act_id = request.POST['activity_id']
 		act = Activity.objects.get(pk = act_id)
-		confirm_object = Confirm_state.objects.create(student = Student.objects.get(ID=username), activity=act, assign="not_confirm")
-		confirm_object.save()
-		# act.students.add(Student.objects.get(ID=username))
+		try:
+			confirm_object = Confirm_state.objects.create(student = Student.objects.get(ID=username), activity=act, assign="not_confirm")
+			confirm_object.save()
+		except IntegrityError as e:
+			pass
 		messages.add_message(request, messages.SUCCESS, 'You CheckIn Successfully ')
-		return HttpResponseRedirect('../list')
+		return HttpResponseRedirect('/activity/list')
+		# act.students.add(Student.objects.get(ID=username))
 def create_activity(request):
 	if request.session.get('type', 'none') == 'none':
 		return redirect('login')
@@ -85,7 +89,7 @@ def create_activity(request):
 			messages.add_message(request, messages.SUCCESS, 'Create Activity Successfully')
 			return HttpResponseRedirect('../list')
 		else:
-			print(create_form.errors)
+			return render(request,'activity/create.html',{'activity_form':create_form})
 	else:
 		create_form = ActivityForm()
 		return render(request,'activity/create.html',{'activity_form':create_form})
@@ -103,7 +107,10 @@ def modify_activity(request,pkd):
 			messages.add_message(request, messages.SUCCESS, 'Successfully Modified')
 			return HttpResponseRedirect('../../list')
 		else:
+			print("====================")
 			print(create_form.errors)
+			print("not valid")
+			return render(request,'activity/modify_activity.html',{'activity_form':create_form,'pkd':pkd})
 	else:		
 		create_form = ActivityForm(instance = activity)
 		return render(request,'activity/modify_activity.html',{'activity_form':create_form,'pkd':pkd})
@@ -129,10 +136,14 @@ def list(request):
 			results.append(result)
 		return render(request,'activity/activity_list.html',{'activities':results})
 	if type == 'student':
-		activities = Activity.objects.exclude(students__ID='1111')
+		activities = Activity.objects.exclude(students__ID=username)
 		print("****",username)
 		result = [];
-		for act in activities:			
+		for act in activities:
+			current_time = datetime.datetime.now()
+			native = act.start_date.replace(tzinfo=None)
+			if native < current_time:
+				continue
 			result.append(act)
 			cnt = cnt + 1
 			if cnt == 3:

@@ -2,8 +2,9 @@
 {% block title %}Create Activity{% endblock %}
 {% block content %}
 	{% load widget_tweaks %}
+
 	<div class="container">
-		<form class = 'activity_form' action="{% url 'activity:url_name_create' %}" method="post" enctype="multipart/form-data">
+		<form id = "create_activity_form" class = 'activity_form' action="{% url 'activity:url_name_create' %}" method="post" enctype="multipart/form-data">
 			<legend>Create Activity</legend>
 			<div class="form-group">
 				<label for="name">Name</label>
@@ -15,7 +16,19 @@
 			</div>
 			<div class="form-group">
 				<label for="major">Major</label>
-				{{ activity_form.major|add_class:"form-control"|attr:"placeholder:Eligible Majors to participate"}}
+				{{ activity_form.major|add_class:"form-control"}}
+			    <select id="AvailableMajors" multiple="multiple">
+			        <option value="Math" selected>Math</option>
+			        <option value="Computer Science" selected>Computer Science</option>
+			        <option value="Biology" selected>Biology</option>
+			        <option value="Physics" selected>Physics</option>
+			        <option value="Programming" selected>Programming</option>
+			    </select>
+				{% if activity_form.major.errors %}
+				<div class="alert alert-danger">
+		            <strong>{{ activity_form.major.errors }}</strong>
+			    </div>
+			    {% endif %}
 			</div>
 			<div class="form-group">				
 				<div class = 'my-datetime-picker'>
@@ -54,6 +67,20 @@
 				format:'YYYY-MM-DD HH:mm:ss',
 				date:new Date()
             });
+            // Major Multiple Select Field START
+            $('#AvailableMajors').multiselect({
+                includeSelectAllOption: true,
+            });
+            $('#create_activity_form').submit(function() {
+			  var txt = $('#id_major');
+			  var selected = $("#AvailableMajors option:selected");
+                var message = "";
+                selected.each(function () {
+                    message += $(this).text() + " ,";
+                });
+			  $('#id_major').val(message);
+			});
+         //   Major Multiple Select Field END
         });
 		// function getFormattedDate(date) {
 		//     var day = date.getDate();
