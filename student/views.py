@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django. http import HttpResponse,HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -19,7 +19,9 @@ def create(request):
 		if create_form.is_valid():
 			create_form.save()
 			messages.add_message(request, messages.SUCCESS, 'Your account has been created successfully.')
-			return HttpResponseRedirect('../')
+			request.session['type'] = 'student'
+			request.session['UserName'] = request.POST['ID']
+			return redirect('activity:list')
 		else:
 			return render(request,'student/create.html', {'student_form':create_form})
 	else:
@@ -28,6 +30,8 @@ def create(request):
 
 
 def modify(request):
+	if request.session.get('type', 'none') == 'none':
+		return redirect('login')
 	username = request.session['UserName']
 	typ = request.session['type']
 	if typ != 'student':
@@ -52,6 +56,7 @@ def modify(request):
 				stu.email = request.POST['email']
 				stu.major = request.POST['major']
 				stu.password = request.POST['password']
+				stu.cuota = request.POST['cuota']
 
 				stu.save()
 
@@ -63,7 +68,7 @@ def modify(request):
 				return render(request,'student/modify.html', {'student_form':create_form,})
 		else:
 			create_form = StudentModifyForm(initial={'ID': info.ID, 'Name': info.Name, 'LastName': info.LastName, 'email': info.email,
-													'major': info.major, 'password': info.password, 'student_id': info.ID})
+													'major': info.major, 'password': info.password, 'student_id': info.ID,'cuota':info.cuota})
 			return render(request,'student/modify.html', {'student_form':create_form,'info':info})
 			
 

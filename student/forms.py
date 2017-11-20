@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Student
+from .models import Student,Major_Choices
 from django import forms
 
 from django.core.exceptions import ValidationError
@@ -10,7 +10,7 @@ class StudentModelForm(ModelForm):
 
 	class Meta:
 		model = Student
-		fields = ['ID','Name','LastName', 'password', 'email', 'major', 'cuota',
+		fields = ['ID','Name','LastName', 'password', 'email', 'cuota','major',
 		]
 		widgets ={'password': forms.PasswordInput(),}
 		
@@ -57,7 +57,8 @@ class StudentModifyForm(forms.Form):
 	Name = forms.CharField(max_length = 200)
 	LastName = forms.CharField(max_length = 200)
 	email = forms.EmailField()
-	major = forms.CharField(max_length = 200)
+	major = forms.ChoiceField(choices=Major_Choices)
+	cuota = forms.IntegerField()
 	student_id = forms.CharField(widget=forms.HiddenInput())
 	# form.fields['field_name'].widget = forms.HiddenInput()
 
