@@ -114,6 +114,33 @@ def modify_activity(request,pkd):
 	else:		
 		create_form = ActivityForm(instance = activity)
 		return render(request,'activity/modify_activity.html',{'activity_form':create_form,'pkd':pkd})
+def completed(request):
+	if request.session.get('type', 'none') == 'none':
+		return redirect('login')
+	type = request.session['type']
+	username = request.session['UserName']
+	if type == 'student':
+		# activities = Activity.objects.filter(students__ID=username)
+		student = Student.objects.get(ID = username)
+		activities = Confirm_state.objects.filter(student=student,assign='confirm')
+		print("****",username)
+		result = [];
+		results = []
+		cnt = 0
+		for acti in activities:
+			act=acti.activity
+			current_time = datetime.datetime.now()
+			native = act.start_date.replace(tzinfo=None)
+			if native < current_time:
+				result.append(act)
+				cnt = cnt + 1
+				if cnt == 3:
+					results.append(result)
+					result = []
+					cnt = 0;
+		if cnt > 0:
+			results.append(result)
+		return render(request,'activity/complete_list.html',{'activities':results})
 def list(request):
 	if request.session.get('type', 'none') == 'none':
 		return redirect('login')
@@ -123,8 +150,9 @@ def list(request):
 	results = [];
 
 	if type == 'organizer':
+		organizer = Organizer.objects.get(UserName=username)
 		result = [];
-		activities = Activity.objects.all();
+		activities = organizer.activity_set.all();
 		for act in activities:			
 			result.append(act)
 			cnt = cnt + 1
@@ -137,6 +165,7 @@ def list(request):
 		return render(request,'activity/activity_list.html',{'activities':results})
 	if type == 'student':
 		activities = Activity.objects.exclude(students__ID=username)
+		print (activities)
 		print("****",username)
 		result = [];
 		for act in activities:
@@ -165,6 +194,14 @@ def detail(request,pkd):
 		activity = Activity.objects.get(pk=pkd)
 		duration = activity.start_date+timedelta(hours=activity.time_worth)
 		return render(request,'activity/check_in_activity_detail.html',{'act':activity,'duration':duration})
+def complete_detail(request,pkd):
+	if request.session.get('type', 'none') == 'none':
+		return redirect('login')
+	type = request.session['type']
+	if type == 'student':
+		activity = Activity.objects.get(pk=pkd)
+		duration = activity.start_date+timedelta(hours=activity.time_worth)
+		return render(request,'activity/complete_detail.html',{'act':activity,'duration':duration})
 def remove(request):
 	if request.session.get('type', 'none') == 'none':
 		return redirect('login')

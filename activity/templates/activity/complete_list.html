@@ -1,0 +1,24 @@
+{% extends "activity/base_student.html" %}
+{% block title %}List Activity{% endblock %}
+{% block content %}
+	<div class="row" style="margin-left: 10px">
+		{%for activity in activities%}
+			{%for act in activity%}
+				<div class="col-xs-12 col-sm-4 post_listing">
+				    <a href="">
+				    	<h2>{{act.name}}</h2>
+				    </a>
+				    <h4>Description</h4>
+				    <h6 class="sub_h5">{{act.description}}</h6>
+				    <h4>Eligible Majors to participate</h4>
+				    <h6 class="sub_h5">{{act.major}}</h6>
+				    <h4>Couta</h4>
+				    <h6 class="sub_h5">{{act.time_worth}} hours</h6>
+					<a href="{% url 'activity:complete_detail' act.id %}">
+						<input type="button" name="Info" class = "btn btn-info" value="Info" />
+					</a>
+				</div>
+			{% endfor %}
+		{% endfor %}
+	</div>
+{% endblock %}

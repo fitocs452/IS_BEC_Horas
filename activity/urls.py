@@ -14,5 +14,7 @@ urlpatterns = [
 	url(r'^check_out/(?P<pkd>[0-9]+)/',views.check_out_detail,name='check_out_detail'),
 	url(r'^check_out/',views.check_out,name='check_out'),
 	url(r'^assign/(?P<pkd>[0-9]+)/',views.assign_student,name = 'assign'),
-	url(r'^confirm/(?P<st_id>[0-9]+)/(?P<act_id>[0-9]+)/',views.confirm,name='confirm')
+	url(r'^confirm/(?P<st_id>[0-9]+)/(?P<act_id>[0-9]+)/',views.confirm,name='confirm'),
+	url(r'^complete_list/',views.completed,name='complete_list'),
+	url(r'^complete_detail/(?P<pkd>[0-9]+)/',views.complete_detail,name='complete_detail'),	
 ]

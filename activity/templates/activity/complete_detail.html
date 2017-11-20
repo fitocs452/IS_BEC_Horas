@@ -29,22 +29,9 @@
 			    <h6 class="sub_h5">{{act.place}}</h6>
 	</div>
 	<div class="row">
-		<form id="myform" method="post" onsubmit="return checkForm(this);" action="{% url 'activity:check_in'%}" style="display: inline-block;">
-		    {% csrf_token %}
-		    <input type="hidden" name="activity_id" value={{act.id}} />
-			<input type="submit" name="CheckIn" id = 'check_in_id' class = "btn btn-info" value="CheckIn" />
-		</form>
-
 		<a href="javascript:history.back()">
-			<input type="button" name="Cancel" id = 'ActivityId' class = "btn btn-info" value="Cancel" />
+			<input type="button" name="Cancel" id = 'ActivityId' class = "btn btn-info" value="BACK" />
 		</a>
 	</div>
 </div>
-<script type="text/javascript">
-	function checkForm(form)
-	  {
-	    form.CheckIn.disabled = true;
-	    return true;
-	  }
-</script>
 {% endblock %}
