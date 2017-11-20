@@ -81,11 +81,11 @@ WSGI_APPLICATION = 'phoenix.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'UVG',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': 'Db9296cfd2',
+        'PASSWORD': 'postgres',
         'HOST': '127.0.0.1',
-        'PORT': '5434',
+        'PORT': '5432',
         'TEST': {
             'NAME': 'phoenixtestdatabase',
         }
