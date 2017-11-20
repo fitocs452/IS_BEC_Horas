@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def login(request):
+	if request.session.get('type','none') != 'none':
+		return redirect('activity:list')
 	if request.method == 'POST':
 		form = LoginForm(request.POST)
 
