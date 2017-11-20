@@ -1,5 +1,5 @@
 from django.db import models
-
+import fernet_fields as ff
 # Create your models here.
 Major_Choices = (
 	('Math', 'Math'),
@@ -10,7 +10,7 @@ Major_Choices = (
 )
 class Student(models.Model):
 	ID = models.CharField(max_length = 200,unique=True)
-	password = models.CharField(max_length = 200)
+	password = ff.EncryptedCharField(max_length = 200)
 	Name = models.CharField(max_length = 200)
 	LastName = models.CharField(max_length = 200)
 	email = models.EmailField()
